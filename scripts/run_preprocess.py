@@ -1,0 +1,34 @@
+from transfolk_core.config import *
+from db.config_registry import ConfigRegistry
+from transfolk_core.preprocessing.dataCleaning import normalize_musicxml_corpus_new
+from transfolk_core.preprocessing.count_TS_tonality import count_ts_mode_distribution
+
+if __name__ == "__main__":
+    settings = Settings()
+    paths = ProjectPaths(settings.root)
+    resolver = PathResolver(paths)
+
+    registry = ConfigRegistry()
+    registry.load_all()
+    corpus = registry.find_by_name("teimus")
+    adc=registry.find_by_name("corpus_cleaning")
+
+    data_dir_raw = resolver.data_raw(corpus)
+    data_dir_clean = resolver.data_clean(corpus)
+
+    # normalized = count_ts_mode_distribution(
+    #     corpus_path=str(data_dir_clean),
+    #     output_dir=str(resolver.data_token(corpus))
+    # )
+
+
+    normalize_musicxml_corpus_new(data_dir_raw,
+                                  data_dir_clean,
+                                  adc.durations,
+                                  midi_min=30,
+                                  midi_max=110,
+                                  overwrite=True,
+                                  delete_grace_notes=False,
+                                  create_title=True,
+                                  respect_time_signature_changes=True,
+                                  respect_ties=True)

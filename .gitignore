@@ -1,0 +1,188 @@
+# ============================================================
+# Python virtual environments
+# ============================================================
+
+.venv/
+venv/
+venv2/
+venv311/
+env/
+ENV/
+
+
+# ============================================================
+# Python cache / bytecode
+# ============================================================
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+
+# ============================================================
+# Build / packaging artifacts
+# ============================================================
+
+*.egg-info/
+.eggs/
+build/
+dist/
+wheels/
+pip-wheel-metadata/
+
+
+# ============================================================
+# Test / coverage / lint caches
+# ============================================================
+
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.ruff_cache/
+.mypy_cache/
+
+
+# ============================================================
+# IDEs / editors
+# ============================================================
+
+.idea/
+.vscode/
+*.swp
+*.swo
+
+
+# ============================================================
+# OS generated files
+# ============================================================
+
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+
+# ============================================================
+# Environment variables / local config
+# ============================================================
+
+.env
+.env.*
+!.env.example
+
+
+# ============================================================
+# Logs
+# ============================================================
+
+*.log
+logs/
+
+
+# ============================================================
+# Local corpora and tokenized data
+# These are local research/training assets, not deployment assets.
+# ============================================================
+
+data/*
+!data/.gitkeep
+!data/README.md
+
+data_tokenized/*
+!data_tokenized/.gitkeep
+!data_tokenized/README.md
+
+
+# ============================================================
+# Local experiments
+# Experiment results, figures, metrics and logs should not be versioned.
+# ============================================================
+
+experiments/*
+!experiments/.gitkeep
+!experiments/README.md
+
+
+# ============================================================
+# Generated API outputs
+# In production this should be a writable directory or external storage.
+# ============================================================
+
+outputs/*
+!outputs/.gitkeep
+!outputs/README.md
+
+
+# ============================================================
+# Models
+# Keep lightweight metadata if needed, but never commit heavy weights.
+# ============================================================
+
+models/*
+!models/.gitkeep
+!models/README.md
+!models/released/
+!models/released/.gitkeep
+!models/released/README.md
+!models/released/**/*.json
+!models/released/**/*.txt
+!models/released/**/*.md
+!models/released/**/*.yaml
+!models/released/**/*.yml
+
+
+# ============================================================
+# Classifier models should not normally belong to TransFolk backend.
+# Kept ignored here in case they still exist during migration.
+# ============================================================
+
+models_classifier/*
+!models_classifier/.gitkeep
+!models_classifier/README.md
+
+
+# ============================================================
+# Heavy model artifacts / checkpoints
+# ============================================================
+
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.safetensors
+*.pkl
+*.pickle
+*.joblib
+
+
+# ============================================================
+# Generated research files
+# ============================================================
+
+*.csv
+*.xlsx
+*.xls
+*.parquet
+*.eps
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.svg
+
+
+# ============================================================
+# Generated symbolic/audio files
+# ============================================================
+
+*.mid
+*.midi
+*.musicxml
+*.mxl
+*.wav
+*.mp3
