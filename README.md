@@ -6,6 +6,17 @@ This repository is part of the TransFolk ecosystem and depends on `transfolk-cor
 
 ---
 
+## Author
+Brian Martínez-Rodríguez
+
+GitHub: https://github.com/BrianComposer
+
+Email: info@brianmartinez.music
+
+Web: www.brianmartinez.music
+
+---
+
 ## Role in the TransFolk ecosystem
 
 The recommended TransFolk architecture is split into independent repositories:
