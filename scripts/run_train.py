@@ -1,6 +1,6 @@
 from transfolk_core.config import *
-from db.config_registry import ConfigRegistry
-from transfolk_core import main
+from transfolk_core.db.config_registry import ConfigRegistry
+from transfolk_backend import main
 import sys
 
 

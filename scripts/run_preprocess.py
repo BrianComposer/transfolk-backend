@@ -1,5 +1,5 @@
 from transfolk_core.config import *
-from db.config_registry import ConfigRegistry
+from transfolk_core.db.config_registry import ConfigRegistry
 from transfolk_core.preprocessing.dataCleaning import normalize_musicxml_corpus_new
 from transfolk_core.preprocessing.count_TS_tonality import count_ts_mode_distribution
 

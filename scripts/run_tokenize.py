@@ -1,7 +1,7 @@
 import json
 
 from transfolk_core.config import *
-from db.config_registry import ConfigRegistry
+from transfolk_core.db.config_registry import ConfigRegistry
 
 from transfolk_core.tokenization.tokenizer import *
 from transfolk_core.patterns.rhythmicPatternSearcher import *

@@ -1,5 +1,5 @@
 from transfolk_core.config import *
-from db.config_registry import ConfigRegistry
+from transfolk_core.db.config_registry import ConfigRegistry
 from transfolk_core.metrics.corpus_membership_classifier import *
 
 

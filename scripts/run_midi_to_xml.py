@@ -1,5 +1,5 @@
 from transfolk_core.config import *
-from db.config_registry import ConfigRegistry
+from transfolk_core.db.config_registry import ConfigRegistry
 from transfolk_core.preprocessing.midi_to_musicxml import midi_folder_to_musicxml
 
 
