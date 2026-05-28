@@ -9,22 +9,22 @@ from transfolk_core.patterns.rhythmicPatternSearcher import *
 
 if __name__ == "__main__":
 
-    registry = ConfigRegistry()
+    settings = Settings()
+    paths = ProjectPaths(settings.root)
+    resolver = PathResolver(paths)
+    registry = ConfigRegistry(paths.db_sqlite)
     registry.load_all()
 
     # arch = registry.find_by_name("kurt001")
-    corpus = registry.find_by_name("todos")
+    corpus = registry.find_by_name("essen")
     # tk = registry.find_by_name("chm")
     # mc = registry.find_by_name("major_x")
     # adt = registry.find_by_name("corpus_cleaning")
     #exp = Experiment(id=1, name = "prueba", corpus=corpus, tokenizer=tk, music_context=mc, allowed_durations=adt)
-    exp = registry.find_by_name("todos_momet_x_x")
+    exp = registry.find_by_name("essen_momet_x_x")
 
-    settings = Settings()
-    paths = ProjectPaths(settings.root)
-    resolver = PathResolver(paths)
 
-    data_dir_raw = resolver.data_raw(corpus)
+    data_dir_raw = resolver.data_normalized(corpus)
     data_dir_clean = resolver.data_clean(corpus)
 
 

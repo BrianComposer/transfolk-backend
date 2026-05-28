@@ -532,7 +532,7 @@ def run_generate_for_curves_style(
     resolver = PathResolver(paths)
     vocab_file = resolver.vocab_file(model_cfg.experiment)
     model_file = resolver.model_file(model_cfg)
-    prod_dir = resolver.production_dir(model_cfg, runtime)
+    prod_dir = resolver.production_sty_dir(model_cfg, runtime)
 
     # 2. Cargar vocabulario
     with open(vocab_file, "r") as f:
@@ -605,7 +605,7 @@ def run_generate_for_curves_style(
 
                     # Crear carpeta "productions" si no existe
                     os.makedirs(prod_dir, exist_ok=True)
-                    filepath = resolver.generated_new_file(model_cfg, runtime)
+                    filepath = resolver.generated_new_file_sty(model_cfg, runtime)
                     os.makedirs(os.path.dirname(filepath), exist_ok=True)
 
                     # Guardar el archivo

@@ -9,18 +9,16 @@ from transfolk_core.metrics.corpus_membership_classifier import *
 
 if __name__ == "__main__":
     # === CONFIGURACIÓN ===
-
     settings = Settings()
     paths = ProjectPaths(settings.root)
     resolver = PathResolver(paths)
-
-    registry = ConfigRegistry()
+    registry = ConfigRegistry(paths.db_sqlite)
     registry.load_all()
-    corpus = registry.find_by_name("todos")
-    data_dir_raw = resolver.data_raw(corpus)
+
+    corpus = registry.find_by_name("essen")
     data_dir_clean = resolver.data_clean(corpus)
     new_dir = ""       # carpeta de nuevas obras
-    model_dir = resolver.paths.models_classifier # carpeta para guardar o cargar el modelo
+    model_dir = resolver.sty_curves_classifier_dir(corpus) # carpeta para guardar o cargar el modelo
 
     # Parámetros del modelo
     pca_components = 10

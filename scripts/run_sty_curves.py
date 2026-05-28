@@ -2,7 +2,7 @@ from transfolk_core.config import *
 from transfolk_core.db.config_registry import ConfigRegistry
 from transfolk_backend import main
 from transfolk_core.config.entities.corpus import Corpus
-from transfolk_core.preprocessing.count_TS_tonality import load_ts_mode_distribution
+from transfolk_core.preprocessing.count_TS_tonality import load_ts_mode_distribution, count_ts_mode_distribution
 from transfolk_core.charts import (
     pca,
     densityHeatmap,
@@ -12,23 +12,24 @@ from transfolk_core.charts import (
 )
 import sys
 import numpy as np
+from pathlib import Path
 
 if __name__ == "__main__":
     ruta_base = sys.argv[1] if len(sys.argv) > 1 else None
     corpus_name = sys.argv[2] if len(sys.argv) > 2 else "todos"
     tokenizer = sys.argv[3] if len(sys.argv) > 3 else "momet"
     modelname = sys.argv[4] if len(sys.argv) > 4 else "todos"
-    num_pieces = int(sys.argv[5] if len(sys.argv) > 5 else 100)
+    num_pieces = int(sys.argv[5] if len(sys.argv) > 5 else 10)
 
-    settings = Settings(ruta_base)
+    settings = Settings()
     paths = ProjectPaths(settings.root)
     resolver = PathResolver(paths)
-    registry = ConfigRegistry()
+    registry = ConfigRegistry(paths.db_sqlite)
     registry.load_all()
 
     models = []
     if modelname == "todos":
-        models = ["kurt010", "mick010"]
+        models = ["john010", "mick010", "robb010"]
     else:
         models = [modelname]
 
@@ -41,16 +42,24 @@ if __name__ == "__main__":
         print(f"--> 📉 STYLE FIDELITY Curve: {corpus}, {tokenizer}, {model_name}")
         print(f"--> 📉 Generation of pieces...")
 
-        # 1. Cargar el diccionario de ocurrencias TS/tonality previamente calculado para cada corpus
-        dict_norm = load_ts_mode_distribution(fr"{str(resolver.data_token(corpus))}/ts_mode_distribution_normalized.json")
+        # 1. Generar/Cargar el diccionario de ocurrencias TS/tonality previamente calculado para cada corpus
+        path_ts_mode_report_file = Path(resolver.corpus_ts_mode_report_file_norm(corpus))
+        if not path_ts_mode_report_file.exists():
+            count_ts_mode_distribution(
+                corpus_path=str(resolver.data_clean(corpus)),
+                output_dir=str(resolver.data_metadata(corpus)),
+                dist_path = str(resolver.corpus_ts_mode_report_file(corpus)),
+                norm_path= str(path_ts_mode_report_file)
+            )
+        dict_norm = load_ts_mode_distribution(str(path_ts_mode_report_file))
 
         # 2. Generamos las piezas para cada temperatura
         TEMPERATURES = np.arange(0.8, 2.2, 0.1)
-        main.run_generate_for_curves_style(model, rt, TEMPERATURES, dict_norm, num_pieces, ruta_base)
+        #main.run_generate_for_curves_style(model, rt, TEMPERATURES, dict_norm, num_pieces, settings.root)
 
         # 3. Generamos la gráfica
-        model_dir = resolver.paths.models_classifier  # carpeta para guardar o cargar el modelo
-        prod_dir = resolver.production_dir(model, rt).parent.parent.parent
+        model_dir = resolver.sty_curves_classifier_dir(corpus)   # carpeta para guardar o cargar el modelo
+        prod_dir = resolver.production_sty_dir(model, rt).parent.parent.parent
 
         membership.Membership_Entropy_Scatter_Plot(MODEL_DIR=str(model_dir),
                                                    TIME_SIGNATURE="x",

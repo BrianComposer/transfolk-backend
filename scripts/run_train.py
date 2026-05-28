@@ -6,22 +6,26 @@ import sys
 
 if __name__ == "__main__":
     ruta_base = sys.argv[1] if len(sys.argv) > 1 else None
-    model_name = sys.argv[2] if len(sys.argv) > 2 else "todos"
-    corpus_name = sys.argv[3] if len(sys.argv) > 3 else "todos"
+    model_name = sys.argv[2] if len(sys.argv) > 2 else "mick001"
+    corpus_name = sys.argv[3] if len(sys.argv) > 3 else "essen"
     token_name = sys.argv[4] if len(sys.argv) > 4 else "momet"
     save_epochs = sys.argv[5] if len(sys.argv) > 5 else False
-    registry = ConfigRegistry()
+
+    settings = Settings()
+    paths = ProjectPaths(settings.root)
+    resolver = PathResolver(paths)
+    registry = ConfigRegistry(paths.db_sqlite)
     registry.load_all()
 
     models = []
     if model_name == "todos":
-        models=[ "kurt010", "mick010" ]
+        models=[ "mick001", "mick010" ]
     else:
         models=[model_name]
 
     for modelname in models:
         model = registry.find_by_name(f"{modelname}_{corpus_name}_{token_name}_x_x")
-        model = main.run_train(model, save_each_epoch=save_epochs, root_path=ruta_base)
+        model = main.run_train(model, save_each_epoch=save_epochs, root_path=settings.root)
         registry.update_model(model)
 
 

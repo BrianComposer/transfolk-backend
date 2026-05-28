@@ -1,3 +1,4 @@
+from config.entities.corpus import Corpus
 from transfolk_core.config import *
 from transfolk_core.db.config_registry import ConfigRegistry
 from transfolk_core.charts import (
@@ -25,29 +26,50 @@ if __name__ == "__main__":
 
     corpus = registry.find_by_name(corpus_name)
     tk = registry.find_by_name(tokenizer)
+    rt = registry.find_by_name("generate_5")
+    model = registry.find_by_name("mick010_todos_momet_x_x")
     # model = registry.find_by_name(f"{model_name}_{corpus_name}_{tokenizer}_x_x")
 
     print(f"--> 📈 TRAINING CURVES: {corpus.name}, {tk.name}")
-    training_curves.plot_training_loss_all_paper(resolver.charts_dir(),
-                                           str(paths.models_training),
-                                        ["john010", "mick010", "robb010"],
-                                           corpus.name,
-                                           tk.name,
-                                           font_size=24,
-                                           axis_size=16,
-                                           show_tittle=False,
-                                           show_chart=True)
+    # training_curves.plot_training_loss_all_paper(resolver.charts_dir(),
+    #                                        str(paths.models_training),
+    #                                     ["john010", "mick010", "robb010"],
+    #                                        corpus.name,
+    #                                        tk.name,
+    #                                        font_size=24,
+    #                                        axis_size=16,
+    #                                        show_tittle=False,
+    #                                        show_chart=True)
 
-    for name in ["john010", "mick010", "robb010"]:
+    temperature=1.2
+    for name in ["mick010"]:
 
-        print(f"--> 🔸 PCA of Corpus vs. Generated: {corpus}, {algorithm}, {time_signature}, {tonality}, {temperature}")
-        pca.visualize_pca_numpy(charts_dir, data_dir_clean, prod_dir, corpus, algorithm, time_signature, tonality, temperature, font_size=18, axis_size=16, show_tittle=True, show_chart=True, by_temperature=False)
+        print(f"--> 🔸 PCA of Corpus vs. Generated: {corpus.name}, {tk.name}, {temperature}")
 
-        print(f"--> 📊 Comparative Histograms: {corpus}, {algorithm}, {time_signature}, {tonality}, {temperature}")
-        histogramsMultimetric.comparative_histograms_multimetric(charts_dir, data_dir_clean, prod_dir, 20, corpus, algorithm, time_signature, tonality, temperature, font_size=18, axis_size=16, legend_size=12, show_tittle=True, show_chart=True)
+        pca.visualize_pca_numpy(resolver.charts_dir(),
+                                resolver.data_clean(corpus),
+                                resolver.production_dir(model, rt),
+                                model.name,
+                                corpus.name,
+                                tk.name,
+                                "X",
+                                "x",
+                                temperature,
+                                font_size=18, axis_size=16, show_tittle=True, show_chart=True, by_temperature=False)
 
-        print(f"--> 🔥 Kernel-Density heatmap: {corpus}, {algorithm}, {time_signature}, {tonality}, {temperature}")
-        densityHeatmap.kernel_density_heatmap(charts_dir, data_dir_clean, prod_dir, 100, corpus, algorithm, time_signature, tonality, temperature, font_size=18, axis_size=16, show_tittle=True, show_chart=True)
+        print(f"--> 📊 Comparative Histograms: {corpus}, {tk.name}, {temperature}")
+        histogramsMultimetric.comparative_histograms_multimetric(resolver.charts_dir(),
+                                                                 resolver.data_clean(corpus),
+                                                                 resolver.production_dir(model, rt),
+                                                                 20,
+                                                                 corpus.name,
+                                                                 tk.name,
+                                                                 "X",
+                                                                 "X",
+                                                                 temperature, font_size=18, axis_size=16, legend_size=12, show_tittle=True, show_chart=True)
+    #
+    #     print(f"--> 🔥 Kernel-Density heatmap: {corpus}, {algorithm}, {time_signature}, {tonality}, {temperature}")
+    #     densityHeatmap.kernel_density_heatmap(charts_dir, data_dir_clean, prod_dir, 100, corpus, algorithm, time_signature, tonality, temperature, font_size=18, axis_size=16, show_tittle=True, show_chart=True)
 
 
 
